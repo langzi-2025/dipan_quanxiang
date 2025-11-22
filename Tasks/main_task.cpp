@@ -28,7 +28,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-
+void ModeIwdg(void);
 uint32_t tick = 0;
 
 namespace remote_control = hello_world::devices::remote_control;
@@ -57,7 +57,18 @@ void MainInit(void) {
   HAL_TIM_Base_Start_IT(&htim6);
 }
 
-void MainTask(void) { tick++; }
+void MainTask(void) {
+   tick++;
+  if(tick<1000)
+  {
+    ModeIwdg();
+    return;
+  }  
+  uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  CAN_Send_Msg(&hcan2,kong,0x200,8);
+  
+  
+}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
@@ -70,10 +81,14 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
   if (huart == &huart3) {
     if (Size == remote_control::kRcRxDataLen) {
       // TODO:在这里刷新看门狗
-
+      HAL_IWDG_Refresh(&hiwdg);
       rc_ptr->decode(rx_buf);
     }
 
     HAL_UARTEx_ReceiveToIdle_DMA(&huart3, rx_buf, kRxBufLen);
   }
+}
+void ModeIwdg(void) {
+  uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  CAN_Send_Msg(&hcan2,kong,0x200,8);
 }
