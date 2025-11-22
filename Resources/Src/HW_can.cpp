@@ -90,7 +90,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         HAL_OK) // 获得接收到的数据头和数据
     {
       
-      if (rx_header1.StdId == 0x201) { // 帧头校验
+      if (rx_header1.StdId == 0x205) { // 帧头校验
         state1 = 1;                               // 校验通过进行具体数据处理
       }
     }
@@ -111,8 +111,11 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO1, &rx_header2, can2_rx_data) ==
         HAL_OK) // 获得接收到的数据头和数据
     {
-      HAL_IWDG_Refresh(&hiwdg);
-      if (rx_header2.StdId == 0x205) { // 帧头校验
+      if(rx_header2.StdId == 0x1FF)
+      {
+        HAL_IWDG_Refresh(&hiwdg);
+      }
+      if (rx_header2.StdId == 0x201) { // 帧头校验
         state2 = 1;// 校验通过进行具体数据处理
       }
     }
