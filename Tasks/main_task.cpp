@@ -66,8 +66,7 @@ void MainTask(void) {
   }  
   uint8_t kong[8]={0,0,0,0,0,0,0,0};
   CAN_Send_Msg(&hcan2,kong,0x200,8);
-  
-  
+  CAN_Send_Msg(&hcan1,kong,0x1FF,8);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -81,7 +80,6 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
   if (huart == &huart3) {
     if (Size == remote_control::kRcRxDataLen) {
       // TODO:在这里刷新看门狗
-      HAL_IWDG_Refresh(&hiwdg);
       rc_ptr->decode(rx_buf);
     }
 
@@ -91,4 +89,5 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 void ModeIwdg(void) {
   uint8_t kong[8]={0,0,0,0,0,0,0,0};
   CAN_Send_Msg(&hcan2,kong,0x200,8);
+  CAN_Send_Msg(&hcan1,kong,0x1FF,8);
 }
