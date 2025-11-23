@@ -95,7 +95,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     {
       
       if (rx_header1.StdId == 0x205) { // 帧头校验
-        state1 = 1;                               // 校验通过进行具体数据处理
+        state1 = 1;
+        rpm = (int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));
+        real_dianliu = (int16_t)(((uint16_t)(can2_rx_data[4]) << 8) | ((uint16_t)can2_rx_data[5]));                      // 校验通过进行具体数据处理
       }
     }
   }
@@ -125,8 +127,8 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
       }
       if (rx_header2.StdId == 0x201) { // 帧头校验
         state2 = 1;
-        rpm = (int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));
-        real_dianliu = (int16_t)(((uint16_t)(can2_rx_data[4]) << 8) | ((uint16_t)can2_rx_data[5]));// 校验通过进行具体数据处理
+        //rpm = (int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));
+        //real_dianliu = (int16_t)(((uint16_t)(can2_rx_data[4]) << 8) | ((uint16_t)can2_rx_data[5]));// 校验通过进行具体数据处理
       }
     }
   }
