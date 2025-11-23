@@ -28,6 +28,7 @@ int state1 = 0;
 int state2 = 0;
 float rc_lv_private = 0;
 float rc_lh_private = 0;
+float rpm = 0;
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -122,7 +123,8 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         rc_lh_private = (float)temp / 1000.0f;
       }
       if (rx_header2.StdId == 0x201) { // 帧头校验
-        state2 = 1;// 校验通过进行具体数据处理
+        state2 = 1;
+        rpm = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
       }
     }
   }

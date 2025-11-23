@@ -1,0 +1,32 @@
+#include "pid.hpp"
+namespace pid {
+float Pid::calc(void)
+{
+    integral_ += error_;
+    derivative_ = error_ - prev_error_;
+    float output = kp * error_ + ki * integral_ + kd * derivative_;
+    if(ki != 0)
+    {
+        if(integral_ > 10000)
+        {
+            integral_ = 10000;
+        }
+        if(integral_ < -10000)
+        {
+            integral_ = -10000;
+        }
+    }
+    if(max_ != 0)
+    {
+        if(output > max_)
+            output = max_;
+    }
+    if(min_ != 0)
+    {
+        if(output < min_)
+            output = min_;
+    }
+    return output;
+    prev_error_ = error_;
+}
+}

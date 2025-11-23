@@ -2,9 +2,9 @@
  * @Author: rogue-wave zhangjingjie@zju.edu.cn
  * @Date: 2025-11-22 21:11:08
  * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
- * @LastEditTime: 2025-11-23 21:08:42
+ * @LastEditTime: 2025-11-23 23:29:20
  * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE#in
  */
 /**
 *******************************************************************************
@@ -30,11 +30,14 @@
 #include "dm4310_drv.hpp"
 #include "iwdg.h"
 #include "math.h"
+#include "pid.hpp"
 /* Private macro -------------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+pid::Pid pid_lun_id_1(25,0,0,16000,-16000);
 /* External variables --------------------------------------------------------*/
+extern float rpm;
 /* Private function prototypes -----------------------------------------------*/
 void ModeIwdg(void);
 uint32_t tick = 0;
@@ -64,7 +67,7 @@ void MainInit(void) {
   // 开启定时器
   HAL_TIM_Base_Start_IT(&htim6);
 }
-
+float a = 0.0f;
 void MainTask(void) {
    tick++;
   if(tick<1000)
@@ -74,11 +77,14 @@ void MainTask(void) {
   }  
   uint8_t kong[8]={0,0,0,0,0,0,0,0};
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
-  uint16_t a = 500;
-  temp[0]=(uint8_t)(a>>8);
-  temp[1]=(uint8_t)(a);
+  
+  pid_lun_id_1.ser_error(a-rpm);
+  float output = pid_lun_id_1.calc();
+  int16_t b = (int16_t)output;
+  temp[0]=(uint8_t)(b>>8);
+  temp[1]=(uint8_t)(b);
   CAN_Send_Msg(&hcan2,temp,0x200,8);
-  CAN_Send_Msg(&hcan1,kong,0x1FF,8);
+  CAN_Send_Msg(&hcan1,kong,0x1FE,8);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -101,5 +107,5 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 void ModeIwdg(void) {
   uint8_t kong[8]={0,0,0,0,0,0,0,0};
   CAN_Send_Msg(&hcan2,kong,0x200,8);
-  CAN_Send_Msg(&hcan1,kong,0x1FF,8);
+  CAN_Send_Msg(&hcan1,kong,0x1FE,8);
 }
