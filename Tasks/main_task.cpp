@@ -2,7 +2,7 @@
  * @Author: rogue-wave zhangjingjie@zju.edu.cn
  * @Date: 2025-11-22 21:11:08
  * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
- * @LastEditTime: 2025-11-23 21:08:42
+ * @LastEditTime: 2025-11-23 21:13:10
  * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -74,9 +74,10 @@ void MainTask(void) {
   }  
   uint8_t kong[8]={0,0,0,0,0,0,0,0};
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
-  uint16_t a = 500;
-  temp[0]=(uint8_t)(a>>8);
-  temp[1]=(uint8_t)(a);
+  float test_data = 500.0f;
+  int16_t abc = (int16_t)test_data;
+  temp[0]=(uint8_t)(abc>>8);
+  temp[1]=(uint8_t)(abc);
   CAN_Send_Msg(&hcan2,temp,0x200,8);
   CAN_Send_Msg(&hcan1,kong,0x1FF,8);
 }
