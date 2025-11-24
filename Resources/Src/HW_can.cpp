@@ -29,6 +29,9 @@ int state2 = 0;
 float rc_lv_private = 0;
 float rc_lh_private = 0;
 float rpm = 0;
+float rpm_2 = 0;
+float rpm_3 = 0;
+float rpm_4 = 0;
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -125,6 +128,18 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
       if (rx_header2.StdId == 0x201) { // 帧头校验
         state2 = 1;
         rpm = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
+      }
+      if (rx_header2.StdId == 0x202) { // 帧头校验
+        state2 = 1;
+        rpm_2 = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
+      }
+      if (rx_header2.StdId == 0x203) { // 帧头校验
+        state2 = 1;
+        rpm_3 = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
+      }
+      if (rx_header2.StdId == 0x204) { // 帧头校验
+        state2 = 1;
+        rpm_4 = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
       }
     }
   }
