@@ -32,6 +32,8 @@ float rpm = 0;
 float rpm_2 = 0;
 float rpm_3 = 0;
 float rpm_4 = 0;
+float rpm_duo_1 = 0;
+float angle_duo_1 = 0;
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -97,7 +99,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     {
       
       if (rx_header1.StdId == 0x205) { // 帧头校验
-        state1 = 1;                               // 校验通过进行具体数据处理
+        state1 = 1;
+        rpm_duo_1 = (float)(int16_t)(can1_rx_data[2]<<8|can1_rx_data[3]);
+        angle_duo_1 = (float)(int16_t)(can1_rx_data[0]<<8|can1_rx_data[1]);                               // 校验通过进行具体数据处理
       }
     }
   }

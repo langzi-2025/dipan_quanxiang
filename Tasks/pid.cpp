@@ -7,13 +7,13 @@ float Pid::calc(void)
     float output = kp * error_ + ki * integral_ + kd * derivative_;
     if(ki != 0)
     {
-        if(integral_ > 10000)
+        if(integral_ > 5000)
         {
-            integral_ = 10000;
+            integral_ = 2500;
         }
-        if(integral_ < -10000)
+        if(integral_ < -5000)
         {
-            integral_ = -10000;
+            integral_ = -2500;
         }
     }
     if(max_ != 0)
