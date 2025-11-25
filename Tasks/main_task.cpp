@@ -2,7 +2,7 @@
  * @Author: rogue-wave zhangjingjie@zju.edu.cn
  * @Date: 2025-11-22 21:11:08
  * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
- * @LastEditTime: 2025-11-24 23:25:53
+ * @LastEditTime: 2025-11-25 22:33:55
  * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE#in
  */
@@ -31,6 +31,7 @@
 #include "iwdg.h"
 #include "math.h"
 #include "pid.hpp"
+#include "duo.hpp"
 /* Private macro -------------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
 /* Private types -------------------------------------------------------------*/
@@ -40,12 +41,14 @@ pid::Pid pid_lun_id_2(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_3(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_4(20,0,0,16000,-16000);
 pid::Pid pid_duo_vel_id_1(105.0f,1.0f,11.0f,15000,-15000);
+duo::Duo duo_id_1(649);
 /* External variables --------------------------------------------------------*/
 extern float rpm;
 extern float rpm_2;
 extern float rpm_3;
 extern float rpm_4;
 extern float rpm_duo_1;
+extern float angle_duo_1;
 /* Private function prototypes -----------------------------------------------*/
 void ModeIwdg(void);
 uint32_t tick = 0;
@@ -76,6 +79,7 @@ void MainInit(void) {
   HAL_TIM_Base_Start_IT(&htim6);
 }
 float a = 0.0f;
+float duo_purpose_angle = 3.14/6.0f;
 void MainTask(void) {
    tick++;
   if(tick<1000)
@@ -86,7 +90,10 @@ void MainTask(void) {
   uint8_t kong[8]={0,0,0,0,0,0,0,0};
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
   //uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
-  
+  duo_id_1.set_now_angle(angle_duo_1);
+  duo_id_1.set_purpose_angle(duo_purpose_angle);
+  duo_id_1.calc_error();
+
   pid_lun_id_1.ser_error(0.0f-rpm);
   float output = pid_lun_id_1.calc();
   int16_t b = (int16_t)output;
