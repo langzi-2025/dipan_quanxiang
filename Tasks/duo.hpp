@@ -13,6 +13,10 @@ class Duo{
   }
   void calc_error(void);
   float data_to_rad(float angle_raw);
+  float get_error(void)
+  {
+    return error_;
+  }
   private:
   float original_angle_;
   float now_angle_;

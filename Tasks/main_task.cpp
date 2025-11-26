@@ -2,7 +2,7 @@
  * @Author: rogue-wave zhangjingjie@zju.edu.cn
  * @Date: 2025-11-22 21:11:08
  * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
- * @LastEditTime: 2025-11-25 22:33:55
+ * @LastEditTime: 2025-11-26 22:09:17
  * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE#in
  */
@@ -42,6 +42,7 @@ pid::Pid pid_lun_id_3(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_4(20,0,0,16000,-16000);
 pid::Pid pid_duo_vel_id_1(105.0f,1.0f,11.0f,15000,-15000);
 duo::Duo duo_id_1(649);
+pid::Pid pid_duo_angle_id_1(100.0f,0.0f,1.0f,120.0f,-120.0f);
 /* External variables --------------------------------------------------------*/
 extern float rpm;
 extern float rpm_2;
@@ -80,6 +81,7 @@ void MainInit(void) {
 }
 float a = 0.0f;
 float duo_purpose_angle = 3.14/6.0f;
+float duo_now_id_1_angle_output = 0;
 void MainTask(void) {
    tick++;
   if(tick<1000)
@@ -87,41 +89,42 @@ void MainTask(void) {
     ModeIwdg();
     return;
   }  
-  uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  //uint8_t kong[8]={0,0,0,0,0,0,0,0};
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
-  //uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
+  uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
   duo_id_1.set_now_angle(angle_duo_1);
   duo_id_1.set_purpose_angle(duo_purpose_angle);
   duo_id_1.calc_error();
-
-  pid_lun_id_1.ser_error(0.0f-rpm);
+  pid_duo_angle_id_1.set_error(duo_id_1.get_error());
+  duo_now_id_1_angle_output = pid_duo_angle_id_1.calc();
+  pid_lun_id_1.set_error(0.0f-rpm);
   float output = pid_lun_id_1.calc();
   int16_t b = (int16_t)output;
   temp[0]=(uint8_t)(b>>8);
   temp[1]=(uint8_t)(b);
-  pid_lun_id_2.ser_error(0.0f-rpm_2);
+  pid_lun_id_2.set_error(0.0f-rpm_2);
   output = pid_lun_id_2.calc();
   b = (int16_t)output;
   temp[2]=(uint8_t)(b>>8);
   temp[3]=(uint8_t)(b);
-  pid_lun_id_3.ser_error(0.0f-rpm_3);
+  pid_lun_id_3.set_error(0.0f-rpm_3);
   output = pid_lun_id_3.calc();
   b = (int16_t)output;
   temp[4]=(uint8_t)(b>>8);
   temp[5]=(uint8_t)(b);
-  pid_lun_id_4.ser_error(0.0f-rpm_4);
+  pid_lun_id_4.set_error(0.0f-rpm_4);
   output = pid_lun_id_4.calc();
   b = (int16_t)output;
   temp[6]=(uint8_t)(b>>8);
   temp[7]=(uint8_t)(b);
 
-  pid_duo_vel_id_1.ser_error(a-rpm_duo_1);
+  pid_duo_vel_id_1.set_error(duo_now_id_1_angle_output - rpm_duo_1);
   output = pid_duo_vel_id_1.calc();
   b = (int16_t)output;
-  //temp_duo[0]=(uint8_t)(b>>8);
-  //temp_duo[1]=(uint8_t)(b);
+  temp_duo[0]=(uint8_t)(b>>8);
+  temp_duo[1]=(uint8_t)(b);
   CAN_Send_Msg(&hcan2,temp,0x200,8);
-  CAN_Send_Msg(&hcan1,kong,0x1FE,8);
+  CAN_Send_Msg(&hcan1,temp_duo,0x1FE,8);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {

@@ -20,7 +20,7 @@ namespace pid
     this->max_=max;
     this->min_=min;
   }
-  void ser_error(float error){
+  void set_error(float error){
     this->error_=error;
   }
   float calc(void);
