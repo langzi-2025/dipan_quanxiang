@@ -33,7 +33,13 @@ float rpm_2 = 0;
 float rpm_3 = 0;
 float rpm_4 = 0;
 float rpm_duo_1 = 0;
+float rpm_duo_2 = 0;
+float rpm_duo_3 = 0;
+float rpm_duo_4 = 0;
 float angle_duo_1 = 0;
+float angle_duo_2 = 0;
+float angle_duo_3 = 0;
+float angle_duo_4 = 0;
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -102,6 +108,18 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         state1 = 1;
         rpm_duo_1 = (float)(int16_t)(can1_rx_data[2]<<8|can1_rx_data[3]);
         angle_duo_1 = (float)(int16_t)(can1_rx_data[0]<<8|can1_rx_data[1]);                               // 校验通过进行具体数据处理
+      }
+      if (rx_header1.StdId == 0x206) { // 帧头校验
+        rpm_duo_2 = (float)(int16_t)(can1_rx_data[2]<<8|can1_rx_data[3]);
+        angle_duo_2 = (float)(int16_t)(can1_rx_data[0]<<8|can1_rx_data[1]);                               // 校验通过进行具体数据处理
+      }
+      if (rx_header1.StdId == 0x207) { // 帧头校验
+        rpm_duo_3 = (float)(int16_t)(can1_rx_data[2]<<8|can1_rx_data[3]);
+        angle_duo_3 = (float)(int16_t)(can1_rx_data[0]<<8|can1_rx_data[1]);                               // 校验通过进行具体数据处理
+      }
+      if (rx_header1.StdId == 0x208) { // 帧头校验
+        rpm_duo_4 = (float)(int16_t)(can1_rx_data[2]<<8|can1_rx_data[3]);
+        angle_duo_4 = (float)(int16_t)(can1_rx_data[0]<<8|can1_rx_data[1]);                               // 校验通过进行具体数据处理
       }
     }
   }

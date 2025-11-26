@@ -2,7 +2,7 @@
  * @Author: rogue-wave zhangjingjie@zju.edu.cn
  * @Date: 2025-11-22 21:11:08
  * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
- * @LastEditTime: 2025-11-26 22:09:17
+ * @LastEditTime: 2025-11-26 23:01:04
  * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE#in
  */
@@ -41,15 +41,30 @@ pid::Pid pid_lun_id_2(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_3(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_4(20,0,0,16000,-16000);
 pid::Pid pid_duo_vel_id_1(105.0f,1.0f,11.0f,15000,-15000);
-duo::Duo duo_id_1(649);
+pid::Pid pid_duo_vel_id_2(105.0f,1.0f,11.0f,15000,-15000);
+pid::Pid pid_duo_vel_id_3(105.0f,1.0f,11.0f,15000,-15000);
+pid::Pid pid_duo_vel_id_4(105.0f,1.0f,11.0f,15000,-15000);
+duo::Duo duo_id_1(649.0f);
+duo::Duo duo_id_2(6803.0f);
+duo::Duo duo_id_3(4090.0f);
+duo::Duo duo_id_4(2041.0f);
 pid::Pid pid_duo_angle_id_1(100.0f,0.0f,1.0f,120.0f,-120.0f);
+pid::Pid pid_duo_angle_id_2(110.0f,0.0f,1.0f,120.0f,-120.0f);
+pid::Pid pid_duo_angle_id_3(100.0f,0.0f,1.0f,120.0f,-120.0f);
+pid::Pid pid_duo_angle_id_4(100.0f,0.0f,1.0f,120.0f,-120.0f);
 /* External variables --------------------------------------------------------*/
 extern float rpm;
 extern float rpm_2;
 extern float rpm_3;
 extern float rpm_4;
 extern float rpm_duo_1;
+extern float rpm_duo_2;
+extern float rpm_duo_3;
+extern float rpm_duo_4;
 extern float angle_duo_1;
+extern float angle_duo_2;
+extern float angle_duo_3;
+extern float angle_duo_4;
 /* Private function prototypes -----------------------------------------------*/
 void ModeIwdg(void);
 uint32_t tick = 0;
@@ -80,8 +95,12 @@ void MainInit(void) {
   HAL_TIM_Base_Start_IT(&htim6);
 }
 float a = 0.0f;
-float duo_purpose_angle = 3.14/6.0f;
+float duo_purpose_angle = 0.0f;
 float duo_now_id_1_angle_output = 0;
+float duo_now_id_2_angle_output = 0;
+float duo_now_id_3_angle_output = 0;
+float duo_now_id_4_angle_output = 0;
+float rc_wheel_private = 0.0f;
 void MainTask(void) {
    tick++;
   if(tick<1000)
@@ -90,6 +109,7 @@ void MainTask(void) {
     return;
   }  
   //uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  rc_wheel_private = rc_ptr->rc_wheel();
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
   uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
   duo_id_1.set_now_angle(angle_duo_1);
@@ -97,6 +117,28 @@ void MainTask(void) {
   duo_id_1.calc_error();
   pid_duo_angle_id_1.set_error(duo_id_1.get_error());
   duo_now_id_1_angle_output = pid_duo_angle_id_1.calc();
+  
+
+
+  duo_id_2.set_now_angle(angle_duo_2);
+  duo_id_2.set_purpose_angle(duo_purpose_angle);
+  duo_id_2.calc_error();
+  pid_duo_angle_id_2.set_error(duo_id_2.get_error());
+  duo_now_id_2_angle_output = pid_duo_angle_id_2.calc();
+  
+
+  duo_id_3.set_now_angle(angle_duo_3);
+  duo_id_3.set_purpose_angle(duo_purpose_angle);
+  duo_id_3.calc_error();
+  pid_duo_angle_id_3.set_error(duo_id_3.get_error());
+  duo_now_id_3_angle_output = pid_duo_angle_id_3.calc();
+
+  duo_id_4.set_now_angle(angle_duo_4);
+  duo_id_4.set_purpose_angle(duo_purpose_angle);
+  duo_id_4.calc_error();
+  pid_duo_angle_id_4.set_error(duo_id_4.get_error());
+  duo_now_id_4_angle_output = pid_duo_angle_id_4.calc();
+
   pid_lun_id_1.set_error(0.0f-rpm);
   float output = pid_lun_id_1.calc();
   int16_t b = (int16_t)output;
@@ -123,6 +165,25 @@ void MainTask(void) {
   b = (int16_t)output;
   temp_duo[0]=(uint8_t)(b>>8);
   temp_duo[1]=(uint8_t)(b);
+
+  pid_duo_vel_id_2.set_error(duo_now_id_2_angle_output - rpm_duo_2);
+  output = pid_duo_vel_id_2.calc();
+  b = (int16_t)output;
+  temp_duo[2]=(uint8_t)(b>>8);
+  temp_duo[3]=(uint8_t)(b);
+
+  pid_duo_vel_id_3.set_error(duo_now_id_3_angle_output - rpm_duo_3);
+  output = pid_duo_vel_id_3.calc();
+  b = (int16_t)output;
+  temp_duo[4]=(uint8_t)(b>>8);
+  temp_duo[5]=(uint8_t)(b);
+
+  pid_duo_vel_id_4.set_error(duo_now_id_4_angle_output - rpm_duo_4);
+  output = pid_duo_vel_id_4.calc();
+  b = (int16_t)output;
+  temp_duo[6]=(uint8_t)(b>>8);
+  temp_duo[7]=(uint8_t)(b);
+  
   CAN_Send_Msg(&hcan2,temp,0x200,8);
   CAN_Send_Msg(&hcan1,temp_duo,0x1FE,8);
 }
