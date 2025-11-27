@@ -100,7 +100,6 @@ float duo_now_id_1_angle_output = 0;
 float duo_now_id_2_angle_output = 0;
 float duo_now_id_3_angle_output = 0;
 float duo_now_id_4_angle_output = 0;
-float rc_wheel_private = 0.0f;
 void MainTask(void) {
    tick++;
   if(tick<1000)
@@ -109,7 +108,6 @@ void MainTask(void) {
     return;
   }  
   //uint8_t kong[8]={0,0,0,0,0,0,0,0};
-  rc_wheel_private = rc_ptr->rc_wheel();
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
   uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
   duo_id_1.set_now_angle(angle_duo_1);
