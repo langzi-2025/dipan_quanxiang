@@ -40,6 +40,7 @@
 #include "math.h"
 #include "pid.hpp"
 #include "duo.hpp"
+#include "dipan.hpp"
 /* Private macro -------------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
 /* Private types -------------------------------------------------------------*/
@@ -60,6 +61,7 @@ pid::Pid pid_duo_angle_id_1(100.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_2(110.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_3(100.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_4(100.0f,0.0f,1.0f,120.0f,-120.0f);
+dipan::Dipan dipan_private;
 /* External variables --------------------------------------------------------*/
 extern float rpm;
 extern float rpm_2;
@@ -73,6 +75,8 @@ extern float angle_duo_1;
 extern float angle_duo_2;
 extern float angle_duo_3;
 extern float angle_duo_4;
+extern float rc_lv_private;
+extern float rc_lh_private;
 /* Private function prototypes -----------------------------------------------*/
 void ModeIwdg(void);
 uint32_t tick = 0;
@@ -116,6 +120,8 @@ void MainTask(void) {
     return;
   }  
   //uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  dipan_private.set_vy(rc_lv_private*1900.0f);
+  dipan_private.set_vx(rc_lh_private*1900.0f);  
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
   uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
   duo_id_1.set_now_angle(angle_duo_1);
