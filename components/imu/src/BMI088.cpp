@@ -9,10 +9,11 @@
  *  V1.1.0      2024-07-13      Caikunzhen      1. 完成正式版
  *******************************************************************************
  * @attention :
- *  1. SPI 的波特率需小于 10MHz，CPOL=Low，CPHA=1Edge 或 CPOL=High，CPHA=2Edge，同
- *  时需配置好加速度计与陀螺仪的片选引脚
- *  2. 由于内部使用了硬件句柄，因此如果计划将实例作为全局变量时（全局变量初始化时对应的
- *  硬件句柄可能会还未初始化完毕），建议采取一下方法：
+ *  1. SPI 的波特率需小于 10MHz，CPOL=Low，CPHA=1Edge 或
+ * CPOL=High，CPHA=2Edge，同 时需配置好加速度计与陀螺仪的片选引脚
+ *  2.
+ * 由于内部使用了硬件句柄，因此如果计划将实例作为全局变量时（全局变量初始化时对应的
+ *  硬件句柄可能会还未初始化完毕），建议采取一下方法:
  *    1）声明指针，后续通过 `new` 的方式进行初始化
  *    2）声明指针，后续通过返回函数（CreateXXXIns）中的静态变量（因为该变量只有在第一
  *    次调用该函数时才会运行初始化程序）进行初始化
@@ -93,17 +94,17 @@ static const uint8_t kGyroRawDataLen = 6u;
 static const uint8_t kAccRawDataLen = 6u;
 static const uint8_t kTempRawDataLen = 2u;
 
-static const uint8_t kSpiTimeout = 2u;  ///* 单位：ms
+static const uint8_t kSpiTimeout = 2u; ///* 单位:ms
 
-static const uint16_t kAccResetTimeMs = 2u;  ///* 加速度计重启耗时，单位：ms
-static const uint8_t kGyroResetTimeMs = 1u;  ///* 陀螺仪重启耗时，单位：ms
-static const uint16_t kCommWaitTimeUs = 2u;  ///* 通信间隔时间，单位：us
-/** 寄存器写入后读取间隔时间，单位：us */
+static const uint16_t kAccResetTimeMs = 2u; ///* 加速度计重启耗时，单位:ms
+static const uint8_t kGyroResetTimeMs = 1u; ///* 陀螺仪重启耗时，单位:ms
+static const uint16_t kCommWaitTimeUs = 2u; ///* 通信间隔时间，单位:us
+/** 寄存器写入后读取间隔时间，单位:us */
 static const uint16_t kCheckWaitTimeUs = 120u;
 
-/** 加速度计自检测短延时，单位：ms */
+/** 加速度计自检测短延时，单位:ms */
 static const uint8_t kAccSelfTestShortDelayMs = 2u;
-/** 加速度计自检测长延时，单位：ms */
+/** 加速度计自检测长延时，单位:ms */
 static const uint8_t kAccSelfTestLongDelayMs = 50u;
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/

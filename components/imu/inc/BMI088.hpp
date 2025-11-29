@@ -9,10 +9,11 @@
  *  V1.1.0      2024-07-13      Caikunzhen      1. 完成正式版
  *******************************************************************************
  * @attention :
- *  1. SPI 的波特率需小于 10MHz，CPOL=Low，CPHA=1Edge 或 CPOL=High，CPHA=2Edge，同
- *  时需配置好加速度计与陀螺仪的片选引脚
- *  2. 由于内部使用了硬件句柄，因此如果计划将实例作为全局变量时（全局变量初始化时对应的
- *  硬件句柄可能会还未初始化完毕），建议采取一下方法：
+ *  1. SPI 的波特率需小于 10MHz，CPOL=Low，CPHA=1Edge 或
+ * CPOL=High，CPHA=2Edge，同 时需配置好加速度计与陀螺仪的片选引脚
+ *  2.
+ * 由于内部使用了硬件句柄，因此如果计划将实例作为全局变量时（全局变量初始化时对应的
+ *  硬件句柄可能会还未初始化完毕），建议采取一下方法:
  *    1）声明指针，后续通过 `new` 的方式进行初始化
  *    2）声明指针，后续通过返回函数（CreateXXXIns）中的静态变量（因为该变量只有在第一
  *    次调用该函数时才会运行初始化程序）进行初始化
@@ -47,14 +48,15 @@ enum BMI088ErrState : uint8_t {  ///* 通过或运算拼接
   kBMI088ErrStateGyroConfigErr = 1u << 5,
 };
 
-enum BMI088AccRange : uint8_t {  ///* BMI088 加速度计量程，单位：g
+enum BMI088AccRange : uint8_t
+{ ///* BMI088 加速度计量程，单位:g
   kBMI088AccRange3G = 0x0,
   kBMI088AccRange6G = 0x1,
   kBMI088AccRange12G = 0x2,
   kBMI088AccRange24G = 0x3,
 };
 
-/** BMI088 加速度计输出频率（Output Data Rate），单位：Hz */
+/** BMI088 加速度计输出频率（Output Data Rate），单位:Hz */
 enum BMI088AccOdr : uint8_t {
   kBMI088AccOdr12_5 = 0x5,
   kBMI088AccOdr25 = 0x6,
@@ -72,7 +74,8 @@ enum BMI088AccOsr : uint8_t {  ///* BMI088 加速度计过采样率（Oversampli
   kBMI088AccOsrNormal = 0xA,   ///* 不过采样
 };
 
-enum BMI088GyroRange : uint8_t {  ///* BMI088 陀螺仪量程，单位：°/s
+enum BMI088GyroRange : uint8_t
+{ ///* BMI088 陀螺仪量程，单位:°/s
   kBMI088GyroRange2000Dps = 0x0,
   kBMI088GyroRange1000Dps = 0x1,
   kBMI088GyroRange500Dps = 0x2,
@@ -81,7 +84,7 @@ enum BMI088GyroRange : uint8_t {  ///* BMI088 陀螺仪量程，单位：°/s
 };
 
 /** BMI088 陀螺仪输出频率（Output Data Rate）与滤波器带宽（Filter Bandwidth），
- * 单位：Hz */
+ * 单位:Hz */
 enum BMI088GyroOdrFbw : uint8_t {
   kBMI088GyroOdrFbw2000_532 = 0x0,
   kBMI088GyroOdrFbw2000_230 = 0x1,
@@ -156,7 +159,7 @@ class BMI088
   /**
    * @brief       进行 BMI088 芯片配置
    * @param        self_test: 是否开启传感器自检测，自检测会额外消耗时间
-   * @retval       错误状态，为以下值的或运算：
+   * @retval       错误状态，为以下值的或运算:
    *   @arg        kBMI088ErrStateAccNotFound: 加速度计未找到
    *   @arg        kBMI088ErrStateAccSelfTestFailed: 加速度计自检测失败
    *   @arg        kBMI088ErrStateAccConfigErr: 加速度计配置错误
@@ -172,9 +175,9 @@ class BMI088
 
   /**
    * @brief       获取传感器数据
-   * @param        acc_data: 加速度计三轴数据，[ax ay az]，单位：m/s^2
-   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位：rad/s
-   * @param        temp_ptr: 温度数据指针，单位：℃
+   * @param        acc_data: 加速度计三轴数据，[ax ay az]，单位:m/s^2
+   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位:rad/s
+   * @param        temp_ptr: 温度数据指针，单位:℃
    * @retval       None
    * @note        传入 null_ptr 则不获取对应数据
    */
@@ -203,7 +206,7 @@ class BMI088
   /**
    * @brief       加速度计配置
    * @param        self_test: 是否进行自检测
-   * @retval       错误状态，为以下值的或运算：
+   * @retval       错误状态，为以下值的或运算:
    *   @arg        kBMI088ErrStateAccNotFound: 加速度计未找到
    *   @arg        kBMI088ErrStateAccSelfTestFailed: 加速度计自检测失败
    *   @arg        kBMI088ErrStateAccConfigErr: 加速度计配置错误
@@ -215,7 +218,7 @@ class BMI088
   /**
    * @brief       陀螺仪配置
    * @param        self_test: 是否进行自检测，自检测会额外消耗时间
-   * @retval       错误状态，为以下值的或运算：
+   * @retval       错误状态，为以下值的或运算:
    *   @arg        kBMI088ErrStateGyroNotFound: 陀螺仪未找到
    *   @arg        kBMI088ErrStateGyroSelfTestFailed: 陀螺仪自检测失败
    *   @arg        kBMI088ErrStateGyroConfigErr: 陀螺仪配置错误
@@ -226,7 +229,7 @@ class BMI088
 
   /**
    * @brief       加速度计自检测
-   * @retval       错误状态，可能为以下值：
+   * @retval       错误状态，可能为以下值:
    *   @arg        kBMI088ErrStateAccSelfTestFailed: 加速度计自检测失败
    *   @arg        kBMI088ErrStateNoErr: 无错误
    * @note        None
@@ -235,7 +238,7 @@ class BMI088
 
   /**
    * @brief       陀螺仪自检测
-   * @retval       错误状态，可能为以下值：
+   * @retval       错误状态，可能为以下值:
    *   @arg        kBMI088ErrStateGyroSelfTestFailed: 陀螺仪自检测失败
    *   @arg        kBMI088ErrStateNoErr: 无错误
    * @note        None
@@ -246,7 +249,7 @@ class BMI088
 
   /**
    * @brief       获取陀螺仪数据
-   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位：rad/s
+   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位:rad/s
    * @retval       None
    * @note        None
    */
@@ -254,7 +257,7 @@ class BMI088
 
   /**
    * @brief       获取加速度计数据
-   * @param        acc_data: 加速度计三轴数据，[ax ay az]，单位：m/s^2
+   * @param        acc_data: 加速度计三轴数据，[ax ay az]，单位:m/s^2
    * @retval       None
    * @note        None
    */
@@ -262,7 +265,7 @@ class BMI088
 
   /**
    * @brief       获取温度数据
-   * @retval       温度，单位：℃
+   * @retval       温度，单位:℃
    * @note        None
    */
   float getTemp(void) const;

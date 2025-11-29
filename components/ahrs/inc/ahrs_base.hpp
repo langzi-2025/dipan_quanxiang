@@ -52,7 +52,7 @@ class Ahrs
   /**
    * @brief       根据反馈数据进行姿态更新
    * @param        acc_data: 加速度计三轴数据，[ax ay az]，无单位要求
-   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位：rad/s
+   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位:rad/s
    * @retval       None
    * @note        加速度计三轴数据需包含重力加速度项
    */
@@ -71,7 +71,7 @@ class Ahrs
   /**
    * @brief       获取当前姿态对应的欧拉角（Z-Y-X）
    * @param        euler_angle: 当前姿态对应的欧拉角（Z-Y-X），[roll pitch yaw]，单
-   *               位：rad
+   *               位:rad
    * @retval       None
    * @note        姿态为相对起始时的右手系，满足 x 朝前，y 朝左，z 朝上
    */

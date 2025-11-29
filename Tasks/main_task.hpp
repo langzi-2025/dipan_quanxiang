@@ -1,6 +1,6 @@
 /**
 *******************************************************************************
-* @file      ：main_task.hpp
+* @file      :main_task.hpp
 * @brief     :
 * @history   :
 *  Version     Date            Author          Note
@@ -8,7 +8,7 @@
 *******************************************************************************
 * @attention :
 *******************************************************************************
-*  Copyright (c) 2024 Hello World Team，Zhejiang University.
+*  Copyright (c) 2024 Hello World Team,Zhejiang University.
 *  All Rights Reserved.
 *******************************************************************************
 */

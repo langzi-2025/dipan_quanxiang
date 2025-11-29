@@ -40,7 +40,7 @@ uint32_t GetTickUs(void)
 
 /**
  * @brief       返回当前时间
- * @retval       当前时间，单位：ms
+ * @retval       当前时间，单位:ms
  * @note        None
  */
 uint32_t GetTickMs(void)
@@ -50,7 +50,7 @@ uint32_t GetTickMs(void)
 
 /**
  * @brief       返回当前时间
- * @retval       当前时间，单位：s
+ * @retval       当前时间，单位:s
  * @note        None
  */
 uint32_t GetTickS(void)
@@ -60,7 +60,7 @@ uint32_t GetTickS(void)
 
 /**
  * @brief       微秒级延时
- * @param        us: 需要延时的时间，单位：us
+ * @param        us: 需要延时的时间，单位:us
  * @retval       None
  * @note        None
  */

@@ -40,7 +40,7 @@ class Mahony : public Ahrs
   Mahony(void) = default;
   /**
    * @brief       Mahony 初始化
-   * @param        samp_freq: 采样频率，单位：Hz
+   * @param        samp_freq: 采样频率，单位:Hz
    * @param        kp: 比例系数（>=0）
    * @param        ki: 积分系数（>=0）
    * @retval       None
@@ -50,7 +50,7 @@ class Mahony : public Ahrs
   /**
    * @brief       Mahony 初始化
    * @param        quat_init: 初始化单位四元数，[qw qx qy qz]
-   * @param        samp_freq: 采样频率，单位：Hz
+   * @param        samp_freq: 采样频率，单位:Hz
    * @param        kp: 比例系数（>=0）
    * @param        ki: 积分系数（>=0）
    * @retval       None
@@ -70,7 +70,7 @@ class Mahony : public Ahrs
    * @brief       根据反馈数据进行姿态更新
    * @param        acc_data: 加速度计三轴数据，[ax ay az]，无单位要求，全为 0 时不使
    *               用加速度计数据更新姿态
-   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位：rad/s
+   * @param        gyro_data: 陀螺仪三轴数据，[wx wy wz]，单位:rad/s
    * @retval       None
    * @note        加速度计三轴数据需包含重力加速度项
    */
@@ -81,7 +81,7 @@ class Mahony : public Ahrs
 
   /**
    * @brief       Mahony 初始化，使用默认构造函数后请务必调用此函数
-   * @param        samp_freq: 采样频率，单位：Hz
+   * @param        samp_freq: 采样频率，单位:Hz
    * @param        kp: 比例系数（>=0）
    * @param        ki: 积分系数（>=0）
    * @retval       None
@@ -92,7 +92,7 @@ class Mahony : public Ahrs
   /**
    * @brief       Mahony 初始化，使用默认构造函数后请务必调用此函数
    * @param        quat_init: 初始化单位四元数，[qw qx qy qz]
-   * @param        samp_freq: 采样频率，单位：Hz
+   * @param        samp_freq: 采样频率，单位:Hz
    * @param        kp: 比例系数（>=0）
    * @param        ki: 积分系数（>=0）
    * @retval       None

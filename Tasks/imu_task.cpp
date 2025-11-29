@@ -1,6 +1,6 @@
 /**
 *******************************************************************************
- * @file      :imu_task.cpp
+* @file      :imu_task.cpp
 * @brief     : IMU数据处理任务
 * @history   :
 *  Version     Date            Author          Note
@@ -8,7 +8,7 @@
 *******************************************************************************
 * @attention :
 *******************************************************************************
-*  Copyright (c) 2024 Hello World Team，Zhejiang University.
+*  Copyright (c) 2024 Hello World Team,Zhejiang University.
 *  All Rights Reserved.
 *******************************************************************************
 */
@@ -36,7 +36,7 @@ static void Quat2Euler(float *quat, float *euler);
 /**
  * @brief       IMU 初始化
  * @retval       None
- * @note        使用 IMU 前必须调用此函数进行初始化，并且注意该函数会阻塞直到
+ * @note        使用 IMU 前必须调用此函数进行初始化,并且注意该函数会阻塞直到
  * IMU 初始化完成
  */
 void ImuInit() {
@@ -54,7 +54,7 @@ void ImuInit() {
   float mahony_kp = 0.5f; ///< Mahony 滤波器 kp 参数
   float mahony_ki = 0.0f; ///< Mahony 滤波器 ki 参数
 
-  /**< Mahony 滤波器初始四元数，[w, x, y, z] */
+  /**< Mahony 滤波器初始四元数,[w, x, y, z] */
   float mahony_init_quat[4] = {1.0f, 0.0f, 0.0f, 0.0f};
   float sample_freq = 1000.0f;
   bmi088_ptr = new hello_world::imu::BMI088(default_params, rot_mat_flatten);
@@ -77,8 +77,8 @@ void ImuUpdate() {
 
 /**
  * @brief       四元数转欧拉角
- * @param        q: 四元数，[w, x, y, z]
- * @param        euler: 欧拉角，[yaw, pitch, roll]，单位：rad
+ * @param        q: 四元数,[w, x, y, z]
+ * @param        euler: 欧拉角,[yaw, pitch, roll],单位:rad
  * @retval       None
  * @note        涉及四元数转欧拉角的部分请调用该函数
  */

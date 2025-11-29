@@ -8,7 +8,7 @@
  *  V1.0.0      2023-12-15      Caikunzhen      1. 完成测试
  *  V1.1.0      2004-07-10      Caikunzhen      1. 完成正式版
  *******************************************************************************
- * @attention : 具体算法可查看：https://zhuanlan.zhihu.com/p/342703388
+ * @attention : 具体算法可查看:https://zhuanlan.zhihu.com/p/342703388
  *******************************************************************************
  *  Copyright (c) 2024 Hello World Team, Zhejiang University.
  *  All Rights Reserved.

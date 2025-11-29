@@ -2,6 +2,14 @@
  * @Author: rogue-wave zhangjingjie@zju.edu.cn
  * @Date: 2025-11-22 21:11:08
  * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
+ * @LastEditTime: 2025-11-29 17:38:16
+ * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+/*
+ * @Author: rogue-wave zhangjingjie@zju.edu.cn
+ * @Date: 2025-11-22 21:11:08
+ * @LastEditors: rogue-wave zhangjingjie@zju.edu.cn
  * @LastEditTime: 2025-11-26 23:01:04
  * @FilePath: \dipan_quanxiang\Tasks\main_task.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE#in
@@ -16,7 +24,7 @@
 *******************************************************************************
 * @attention :
 *******************************************************************************
-*  Copyright (c) 2024 Hello World Team，Zhejiang University.
+*  Copyright (c) 2024 Hello World Team,Zhejiang University.
 *  All Rights Reserved.
 *******************************************************************************
 */
