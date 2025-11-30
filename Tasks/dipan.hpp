@@ -14,6 +14,24 @@ void set_vy(float vy)
 {
   v_y_ = vy;
 }
+void set_w(float w)
+{
+  w_ = w;
+}
+void get_v(float a[])
+{
+  a[0] = v_[0];
+  a[1] = v_[1];
+  a[2] = v_[2];
+  a[3] = v_[3];
+}
+void get_angle(float a[])
+{
+  a[0] = angle_[0];
+  a[1] = angle_[1];
+  a[2] = angle_[2];
+  a[3] = angle_[3];
+}
 private:
 float v_[4]={0.0f,0.0f,0.0f,0.0f};
 float angle_[4]={0.0f,0.0f,0.0f,0.0f};

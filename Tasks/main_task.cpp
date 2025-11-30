@@ -121,11 +121,17 @@ void MainTask(void) {
   }  
   //uint8_t kong[8]={0,0,0,0,0,0,0,0};
   dipan_private.set_vy(rc_lv_private*1900.0f);
-  dipan_private.set_vx(rc_lh_private*1900.0f);  
+  dipan_private.set_vx(rc_lh_private*1900.0f);
+  dipan_private.set_w(0.0f);
+  dipan_private.calc_jiesuan();
+  float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
+  dipan_private.get_v(v_temp);
+  float angle_temp[4] = {0.0f,0.0f,0.0f,0.0f};
+  dipan_private.get_angle(angle_temp);
   uint8_t temp[8]={0,0,0,0,0,0,0,0};
   uint8_t temp_duo[8]={0,0,0,0,0,0,0,0};
   duo_id_1.set_now_angle(angle_duo_1);
-  duo_id_1.set_purpose_angle(duo_purpose_angle);
+  duo_id_1.set_purpose_angle(angle_temp[0]);
   duo_id_1.calc_error();
   pid_duo_angle_id_1.set_error(duo_id_1.get_error());
   duo_now_id_1_angle_output = pid_duo_angle_id_1.calc();
@@ -133,20 +139,20 @@ void MainTask(void) {
 
 
   duo_id_2.set_now_angle(angle_duo_2);
-  duo_id_2.set_purpose_angle(duo_purpose_angle);
+  duo_id_2.set_purpose_angle(angle_temp[1]);
   duo_id_2.calc_error();
   pid_duo_angle_id_2.set_error(duo_id_2.get_error());
   duo_now_id_2_angle_output = pid_duo_angle_id_2.calc();
   
 
   duo_id_3.set_now_angle(angle_duo_3);
-  duo_id_3.set_purpose_angle(duo_purpose_angle);
+  duo_id_3.set_purpose_angle(angle_temp[2]);
   duo_id_3.calc_error();
   pid_duo_angle_id_3.set_error(duo_id_3.get_error());
   duo_now_id_3_angle_output = pid_duo_angle_id_3.calc();
 
   duo_id_4.set_now_angle(angle_duo_4);
-  duo_id_4.set_purpose_angle(duo_purpose_angle);
+  duo_id_4.set_purpose_angle(angle_temp[3]);
   duo_id_4.calc_error();
   pid_duo_angle_id_4.set_error(duo_id_4.get_error());
   duo_now_id_4_angle_output = pid_duo_angle_id_4.calc();
