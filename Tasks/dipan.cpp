@@ -32,7 +32,7 @@ void dipan::Dipan::calc_jiesuan(void)
     for(int i = 0;i<4;i++)
     {
       v_[i]=sqrt(vx_temp[i]*vx_temp[i]+vy_temp[i]*vy_temp[i])*60.0f/(3.14*104.0f);
-      angle_[i] = 3.14/2-atan2(vx_temp[i],vy_temp[i]);
+      angle_[i] = atan2(vx_temp[i],vy_temp[i]);
       if(angle_[i]<0)
       {
         angle_[i] += 2*3.14;

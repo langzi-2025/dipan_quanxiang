@@ -120,6 +120,14 @@ void MainTask(void) {
     return;
   }  
   //uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  if(abs(rc_lh_private)<0.05)
+  {
+    rc_lh_private = 0.0f;
+  }
+  if(abs(rc_lv_private)<0.05)
+  {
+    rc_lv_private = 0.0f;
+  }
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
   dipan_private.set_w(0.0f);
@@ -157,22 +165,22 @@ void MainTask(void) {
   pid_duo_angle_id_4.set_error(duo_id_4.get_error());
   duo_now_id_4_angle_output = pid_duo_angle_id_4.calc();
 
-  pid_lun_id_1.set_error(0.0f-rpm);
+  pid_lun_id_1.set_error(v_temp[0]-rpm);
   float output = pid_lun_id_1.calc();
   int16_t b = (int16_t)output;
   temp[0]=(uint8_t)(b>>8);
   temp[1]=(uint8_t)(b);
-  pid_lun_id_2.set_error(0.0f-rpm_2);
+  pid_lun_id_2.set_error(v_temp[1]-rpm_2);
   output = pid_lun_id_2.calc();
   b = (int16_t)output;
   temp[2]=(uint8_t)(b>>8);
   temp[3]=(uint8_t)(b);
-  pid_lun_id_3.set_error(0.0f-rpm_3);
+  pid_lun_id_3.set_error(v_temp[2]-rpm_3);
   output = pid_lun_id_3.calc();
   b = (int16_t)output;
   temp[4]=(uint8_t)(b>>8);
   temp[5]=(uint8_t)(b);
-  pid_lun_id_4.set_error(0.0f-rpm_4);
+  pid_lun_id_4.set_error(v_temp[3]-rpm_4);
   output = pid_lun_id_4.calc();
   b = (int16_t)output;
   temp[6]=(uint8_t)(b>>8);
