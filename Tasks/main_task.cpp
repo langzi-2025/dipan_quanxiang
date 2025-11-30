@@ -165,21 +165,37 @@ void MainTask(void) {
   pid_duo_angle_id_4.set_error(duo_id_4.get_error());
   duo_now_id_4_angle_output = pid_duo_angle_id_4.calc();
 
+  if(abs(angle_duo_1-angle_temp[0])<0.05f)
+  {
+    v_temp[0] = 0.0f;
+  }
   pid_lun_id_1.set_error(v_temp[0]-rpm);
   float output = pid_lun_id_1.calc();
   int16_t b = (int16_t)output;
   temp[0]=(uint8_t)(b>>8);
   temp[1]=(uint8_t)(b);
+  if(abs(angle_duo_2-angle_temp[1])<0.05f)
+  {
+    v_temp[1] = 0.0f;
+  }
   pid_lun_id_2.set_error(v_temp[1]-rpm_2);
   output = pid_lun_id_2.calc();
   b = (int16_t)output;
   temp[2]=(uint8_t)(b>>8);
   temp[3]=(uint8_t)(b);
+  if(abs(angle_duo_3-angle_temp[2])<0.05f)
+  {
+    v_temp[2] = 0.0f;
+  }
   pid_lun_id_3.set_error(v_temp[2]-rpm_3);
   output = pid_lun_id_3.calc();
   b = (int16_t)output;
   temp[4]=(uint8_t)(b>>8);
   temp[5]=(uint8_t)(b);
+  if(abs(angle_duo_4-angle_temp[3])<0.05f)
+  {
+    v_temp[3] = 0.0f;
+  }
   pid_lun_id_4.set_error(v_temp[3]-rpm_4);
   output = pid_lun_id_4.calc();
   b = (int16_t)output;
