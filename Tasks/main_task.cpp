@@ -130,7 +130,7 @@ void MainTask(void) {
   }
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
-  dipan_private.set_w(0.0f);
+  dipan_private.set_w(2.0f);
   dipan_private.calc_jiesuan();
   float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
   dipan_private.get_v(v_temp);
@@ -148,19 +148,19 @@ void MainTask(void) {
     {
       pid_duo_angle_id_1.set_error(duo_id_1.get_error()+3.14f);
       v_temp[0] = -v_temp[0];
-      v_temp[0] = v_temp[0]*cos(duo_id_1.get_error()+3.14f);
+      v_temp[0] = v_temp[0]*cos((duo_id_1.get_error()+3.14f)/3.0f);
     }
     else
     {
       pid_duo_angle_id_1.set_error(duo_id_1.get_error()-3.14f);
       v_temp[0] = -v_temp[0];
-      v_temp[0] = v_temp[0]*cos(duo_id_1.get_error()-3.14f);
+      v_temp[0] = v_temp[0]*cos((duo_id_1.get_error()-3.14f)/3.0f);
     }
   }
   else
   {
     pid_duo_angle_id_1.set_error(duo_id_1.get_error());
-    v_temp[0] = v_temp[0]*cos(duo_id_1.get_error());
+    v_temp[0] = v_temp[0]*cos((duo_id_1.get_error())/3.0f);
   }
   duo_now_id_1_angle_output = pid_duo_angle_id_1.calc();
   
@@ -176,19 +176,19 @@ void MainTask(void) {
     {
       pid_duo_angle_id_2.set_error(duo_id_2.get_error()+3.14f);
       v_temp[1] = -v_temp[1];
-      v_temp[1] = v_temp[1]*cos(duo_id_2.get_error()+3.14f);
+      v_temp[1] = v_temp[1]*cos((duo_id_2.get_error()+3.14f)/3.0f);
     }
     else
     {
       pid_duo_angle_id_2.set_error(duo_id_2.get_error()-3.14f);
       v_temp[1] = -v_temp[1];
-      v_temp[1] = v_temp[1]*cos(duo_id_2.get_error()-3.14f);
+      v_temp[1] = v_temp[1]*cos((duo_id_2.get_error()-3.14f)/3.0f);
     }
   }
   else
   {
     pid_duo_angle_id_2.set_error(duo_id_2.get_error());
-    v_temp[1] = v_temp[1]*cos(duo_id_2.get_error());
+    v_temp[1] = v_temp[1]*cos((duo_id_2.get_error())/3.0f);
   }
   duo_now_id_2_angle_output = pid_duo_angle_id_2.calc();
   
@@ -203,19 +203,19 @@ void MainTask(void) {
     {
       pid_duo_angle_id_3.set_error(duo_id_3.get_error()+3.14f);
       v_temp[2] = -v_temp[2];
-      v_temp[2] = v_temp[2]*cos(duo_id_3.get_error()+3.14f);
+      v_temp[2] = v_temp[2]*cos((duo_id_3.get_error()+3.14f)/3.0f);
     }
     else
     {
       pid_duo_angle_id_3.set_error(duo_id_3.get_error()-3.14f);
       v_temp[2] = -v_temp[2];
-      v_temp[2] = v_temp[2]*cos(duo_id_3.get_error()-3.14f);
+      v_temp[2] = v_temp[2]*cos((duo_id_3.get_error()-3.14f)/3.0f);
     }
   }
   else
   {
     pid_duo_angle_id_3.set_error(duo_id_3.get_error());
-    v_temp[2] = v_temp[2]*cos(duo_id_3.get_error());
+    v_temp[2] = v_temp[2]*cos((duo_id_3.get_error())/3.0f);
   }
   duo_now_id_3_angle_output = pid_duo_angle_id_3.calc();
 
@@ -229,19 +229,19 @@ void MainTask(void) {
     {
       pid_duo_angle_id_4.set_error(duo_id_4.get_error()+3.14f);
       v_temp[3] = -v_temp[3];
-      v_temp[3] = v_temp[3]*cos(duo_id_4.get_error()+3.14f);
+      v_temp[3] = v_temp[3]*cos((duo_id_4.get_error()+3.14f)/3.0f);
     }
     else
     {
       pid_duo_angle_id_4.set_error(duo_id_4.get_error()-3.14f);
       v_temp[3] = -v_temp[3];
-      v_temp[3] = v_temp[3]*cos(duo_id_4.get_error()-3.14f);
+      v_temp[3] = v_temp[3]*cos((duo_id_4.get_error()-3.14f)/3.0f);
     }
   }
   else
   {
     pid_duo_angle_id_4.set_error(duo_id_4.get_error());
-    v_temp[3] = v_temp[3]*cos(duo_id_4.get_error());
+    v_temp[3] = v_temp[3]*cos((duo_id_4.get_error())/3.0f);
   }
   duo_now_id_4_angle_output = pid_duo_angle_id_4.calc();
 

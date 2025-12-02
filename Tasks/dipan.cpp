@@ -38,5 +38,12 @@ void dipan::Dipan::calc_jiesuan(void)
         angle_[i] += 2*3.14;
       }
     }
-}
+    if(abs(v_x_/1900.0f) < 0.05f && abs(v_y_/1900.0f) < 0.05f && abs(w_)<0.05f)
+    {
+      angle_[0] = 3.14/4.0f;
+      angle_[1] = 2*3.14-3.14/4.0f;
+      angle_[2] = 3.14/4.0f;
+      angle_[3] = 2*3.14-3.14/4.0f;
+    }
+  }
 }
