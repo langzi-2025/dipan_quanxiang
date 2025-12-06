@@ -41,6 +41,8 @@ float angle_duo_1 = 0;
 float angle_duo_2 = 0;
 float angle_duo_3 = 0;
 float angle_duo_4 = 0;
+float angle_yaw = 0.0f;
+extern Joint_Motor_t yaw_private;
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -166,6 +168,8 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
       }
       if(rx_header2.StdId == 0x11){
         state3 = 1;
+        dm4310_fbdata(&yaw_private,can2_rx_data,8);
+        angle_yaw = yaw_private.para.pos;
       }
     }
   }
