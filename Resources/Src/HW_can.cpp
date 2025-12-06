@@ -167,7 +167,7 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         rpm_4 = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
       }
       if(rx_header2.StdId == 0x11){
-        state3 = 1;
+        state3 += 1;
         dm4310_fbdata(&yaw_private,can2_rx_data,8);
         angle_yaw = yaw_private.para.pos;
       }

@@ -113,14 +113,22 @@ float duo_now_id_1_angle_output = 0;
 float duo_now_id_2_angle_output = 0;
 float duo_now_id_3_angle_output = 0;
 float duo_now_id_4_angle_output = 0;
+int f_yaw = 0;
 void MainTask(void) {
-   tick++;
+  tick++;
   if(tick<1000)
   {
+    disable_motor_mode(&hcan2,0x01,MIT_MODE);
     ModeIwdg();
     return;
   }  
   //uint8_t kong[8]={0,0,0,0,0,0,0,0};
+  if (f_yaw == 0)
+  {
+    enable_motor_mode(&hcan2,0x01,MIT_MODE);
+    f_yaw = 1;
+  }
+  mit_ctrl(&hcan2,0x01,0,0,0,0,0.0);
   if(abs(rc_lh_private)<0.05)
   {
     rc_lh_private = 0.0f;
