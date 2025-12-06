@@ -62,6 +62,7 @@ pid::Pid pid_duo_angle_id_2(110.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_3(100.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_4(100.0f,0.0f,1.0f,120.0f,-120.0f);
 dipan::Dipan dipan_private;
+Joint_Motor_t yaw_private;
 /* External variables --------------------------------------------------------*/
 extern float rpm;
 extern float rpm_2;
@@ -130,7 +131,7 @@ void MainTask(void) {
   }
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
-  dipan_private.set_w(2.0f);
+  dipan_private.set_w(0.0f);
   dipan_private.calc_jiesuan();
   float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
   dipan_private.get_v(v_temp);

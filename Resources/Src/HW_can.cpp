@@ -26,6 +26,7 @@ static uint8_t can1_rx_data[8], can2_rx_data[8];
 uint32_t pTxMailbox;
 int state1 = 0;
 int state2 = 0;
+int state3 = 0;
 float rc_lv_private = 0;
 float rc_lh_private = 0;
 float rpm = 0;
@@ -162,6 +163,9 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
       if (rx_header2.StdId == 0x204) { // 帧头校验
         state2 = 1;
         rpm_4 = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
+      }
+      if(rx_header2.StdId == 0x11){
+        state3 = 1;
       }
     }
   }
