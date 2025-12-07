@@ -15,7 +15,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "HW_can.hpp"
 #include "stdint.h"
-
+#include "dipan.hpp"
 #include "dm4310_drv.hpp"
 /* Private macro -------------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
@@ -27,6 +27,7 @@ uint32_t pTxMailbox;
 int state1 = 0;
 int state2 = 0;
 int state3 = 0;
+int f_y_axis = 0;
 float rc_lv_private = 0;
 float rc_lh_private = 0;
 float rpm = 0;
@@ -43,6 +44,7 @@ float angle_duo_3 = 0;
 float angle_duo_4 = 0;
 float angle_yaw = 0.0f;
 extern Joint_Motor_t yaw_private;
+extern dipan::Dipan dipan_private;
 /* External variables --------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 
@@ -170,6 +172,13 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         state3 += 1;
         dm4310_fbdata(&yaw_private,can2_rx_data,8);
         angle_yaw = yaw_private.para.pos;
+        if(f_y_axis == 0){
+          dipan_private.set_angle_raw_y_axis(angle_yaw);
+          f_y_axis = 1;
+        }
+        else{
+          dipan_private.set_angle_now_y_axis(angle_yaw);
+        }
       }
     }
   }

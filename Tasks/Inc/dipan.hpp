@@ -32,12 +32,22 @@ void get_angle(float a[])
   a[2] = angle_[2];
   a[3] = angle_[3];
 }
+void set_angle_raw_y_axis(float angle_raw_y_axis)
+{
+  this->angle_raw_y_axis = angle_raw_y_axis;
+}
+void set_angle_now_y_axis(float angle_now_y_axis)
+{
+  this->angle_now_y_axis = angle_now_y_axis;
+}
 private:
 float v_[4]={0.0f,0.0f,0.0f,0.0f};
 float angle_[4]={0.0f,0.0f,0.0f,0.0f};
 float v_x_ = 0.0f;
 float v_y_ = 0.0f;
 float w_ = 0.0f;
+float angle_raw_y_axis = 0.0f;
+float angle_now_y_axis = 0.0f;
 };
 }
 
