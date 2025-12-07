@@ -44,6 +44,7 @@ float angle_duo_3 = 0;
 float angle_duo_4 = 0;
 float angle_yaw = 0.0f;
 float imu_yaw = 0.0f;
+float vel_yaw = 0.0f;
 extern Joint_Motor_t yaw_private;
 extern dipan::Dipan dipan_private;
 /* External variables --------------------------------------------------------*/
@@ -153,6 +154,7 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         temp = (int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));
         rc_lh_private = (float)temp / 1000.0f;
         imu_yaw = (float)((int16_t)(can2_rx_data[4]<<8|can2_rx_data[5])/1000.0f);
+        vel_yaw = (float)((int16_t)(can2_rx_data[6]<<8|can2_rx_data[7])/1000.0f);
       }
       if (rx_header2.StdId == 0x201) { // 帧头校验
         state2 = 1;

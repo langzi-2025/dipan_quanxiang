@@ -41,6 +41,7 @@
 #include "pid.hpp"
 #include "duo.hpp"
 #include "dipan.hpp"
+#include "yaw.hpp"
 /* Private macro -------------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
 /* Private types -------------------------------------------------------------*/
@@ -53,6 +54,8 @@ pid::Pid pid_duo_vel_id_1(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_2(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_3(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_4(105.0f,1.0f,11.0f,15000,-15000);
+pid::Pid pid_yaw_vel(1.5f,0.0f,0.0f,7.0f,-7.0f);
+pid::Pid pid_yaw_angle(10.0f,0.0f,0.0f,15.0f,-15.0f);
 duo::Duo duo_id_1(649.0f);
 duo::Duo duo_id_2(6803.0f);
 duo::Duo duo_id_3(4090.0f);
@@ -63,11 +66,14 @@ pid::Pid pid_duo_angle_id_3(100.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_4(100.0f,0.0f,1.0f,120.0f,-120.0f);
 dipan::Dipan dipan_private;
 Joint_Motor_t yaw_private;
+yaw::Yaw yaw_angle_data;
 /* External variables --------------------------------------------------------*/
 extern float rpm;
 extern float rpm_2;
 extern float rpm_3;
 extern float rpm_4;
+extern float vel_yaw;
+extern float imu_yaw;
 extern float rpm_duo_1;
 extern float rpm_duo_2;
 extern float rpm_duo_3;
@@ -114,11 +120,13 @@ float duo_now_id_2_angle_output = 0;
 float duo_now_id_3_angle_output = 0;
 float duo_now_id_4_angle_output = 0;
 int f_yaw = 0;
+float vel_error_purpose = 0.0f;
 void MainTask(void) {
   tick++;
   if(tick<1000)
   {
-    disable_motor_mode(&hcan2,0x01,MIT_MODE);
+    // disable_motor_mode(&hcan2,0x01,MIT_MODE);
+    mit_ctrl(&hcan2,0x01,0,0,0,0,0);
     ModeIwdg();
     return;
   }  
@@ -128,7 +136,19 @@ void MainTask(void) {
     enable_motor_mode(&hcan2,0x01,MIT_MODE);
     f_yaw = 1;
   }
-  mit_ctrl(&hcan2,0x01,0,0,0,0,0.0);
+
+
+  yaw_angle_data.set_imu_now_yaw(imu_yaw);
+  yaw_angle_data.set_purpose_yaw(a);
+  float yaw_angle_error_temp = yaw_angle_data.calc_yaw_error();
+  pid_yaw_angle.set_error(yaw_angle_error_temp);
+  vel_error_purpose = pid_yaw_angle.calc();
+  pid_yaw_vel.set_error(vel_error_purpose-vel_yaw);
+  float yaw_temp_vel_output = pid_yaw_vel.calc();
+  mit_ctrl(&hcan2,0x01,0,0,0,0,yaw_temp_vel_output);
+
+
+
   if(abs(rc_lh_private)<0.05)
   {
     rc_lh_private = 0.0f;
@@ -139,7 +159,7 @@ void MainTask(void) {
   }
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
-  dipan_private.set_w(2.0f);
+  dipan_private.set_w(0.0f);
   dipan_private.calc_jiesuan();
   float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
   dipan_private.get_v(v_temp);
