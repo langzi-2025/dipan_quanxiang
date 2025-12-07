@@ -49,7 +49,7 @@
 pid::Pid pid_lun_id_1(25,0,0,16000,-16000);
 pid::Pid pid_lun_id_2(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_3(20,0,0,16000,-16000);
-pid::Pid pid_lun_id_4(20,0,0,16000,-16000);
+pid::Pid pid_lun_id_4(15,0,0,16000,-16000);
 pid::Pid pid_duo_vel_id_1(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_2(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_3(105.0f,1.0f,11.0f,15000,-15000);
@@ -84,6 +84,8 @@ extern float angle_duo_3;
 extern float angle_duo_4;
 extern float rc_lv_private;
 extern float rc_lh_private;
+extern float rc_rh_private;
+extern float rc_rv_private;
 /* Private function prototypes -----------------------------------------------*/
 void ModeIwdg(void);
 uint32_t tick = 0;
@@ -139,7 +141,7 @@ void MainTask(void) {
 
 
   yaw_angle_data.set_imu_now_yaw(imu_yaw);
-  yaw_angle_data.set_purpose_yaw(a);
+  yaw_angle_data.set_purpose_yaw(-rc_rh_private);
   float yaw_angle_error_temp = yaw_angle_data.calc_yaw_error();
   pid_yaw_angle.set_error(yaw_angle_error_temp);
   vel_error_purpose = pid_yaw_angle.calc();

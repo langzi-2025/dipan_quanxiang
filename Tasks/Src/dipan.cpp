@@ -21,7 +21,7 @@ void dipan::Dipan::calc_jiesuan(void)
 {
     float vx_temp[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     float vy_temp[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    float angle_temp = angle_raw_y_axis-angle_now_y_axis;
+    float angle_temp = -angle_now_y_axis;
     vx_temp[0] = v_x_-w_*len*cosf(raw_angle);
     vy_temp[0] = v_y_-w_*len*sinf(raw_angle);
     vx_temp[1] = v_x_+w_*len*cosf(raw_angle);

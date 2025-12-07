@@ -30,6 +30,8 @@ int state3 = 0;
 int f_y_axis = 0;
 float rc_lv_private = 0;
 float rc_lh_private = 0;
+float rc_rv_private = 0;
+float rc_rh_private = 0;
 float rpm = 0;
 float rpm_2 = 0;
 float rpm_3 = 0;
@@ -156,6 +158,11 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         imu_yaw = (float)((int16_t)(can2_rx_data[4]<<8|can2_rx_data[5])/1000.0f);
         vel_yaw = (float)((int16_t)(can2_rx_data[6]<<8|can2_rx_data[7])/1000.0f);
       }
+      if(rx_header2.StdId == 0x0FE)
+      {
+        rc_rv_private = (float)((int16_t)(can2_rx_data[0]<<8|can2_rx_data[1]))/1000.0f;
+        rc_rh_private = (float)((int16_t)(can2_rx_data[2]<<8|can2_rx_data[3]))/1000.0f;
+      }
       if (rx_header2.StdId == 0x201) { // 帧头校验
         state2 = 1;
         rpm = (float)(int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));// 校验通过进行具体数据处理
@@ -177,11 +184,11 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         dm4310_fbdata(&yaw_private,can2_rx_data,8);
         angle_yaw = yaw_private.para.pos;
         if(f_y_axis == 0){
-          dipan_private.set_angle_raw_y_axis(angle_yaw+imu_yaw);
+          dipan_private.set_angle_raw_y_axis(angle_yaw-1.52);
           f_y_axis = 1;
         }
         else{
-          dipan_private.set_angle_now_y_axis(angle_yaw+imu_yaw);
+          dipan_private.set_angle_now_y_axis(angle_yaw-1.52);
         }
       }
     }
