@@ -21,14 +21,22 @@ void dipan::Dipan::calc_jiesuan(void)
 {
     float vx_temp[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     float vy_temp[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    vx_temp[0] = v_x_-w_*len*cos(raw_angle);
-    vy_temp[0] = v_y_-w_*len*sin(raw_angle);
-    vx_temp[1] = v_x_+w_*len*cos(raw_angle);
-    vy_temp[1] = v_y_-w_*len*sin(raw_angle);
-    vx_temp[2] = v_x_+w_*len*cos(raw_angle);
-    vy_temp[2] = v_y_+w_*len*sin(raw_angle);
-    vx_temp[3] = v_x_-w_*len*cos(raw_angle);
-    vy_temp[3] = v_y_+w_*len*sin(raw_angle);
+    float angle_temp = angle_raw_y_axis-angle_now_y_axis;
+    vx_temp[0] = v_x_-w_*len*cosf(raw_angle);
+    vy_temp[0] = v_y_-w_*len*sinf(raw_angle);
+    vx_temp[1] = v_x_+w_*len*cosf(raw_angle);
+    vy_temp[1] = v_y_-w_*len*sinf(raw_angle);
+    vx_temp[2] = v_x_+w_*len*cosf(raw_angle);
+    vy_temp[2] = v_y_+w_*len*sinf(raw_angle);
+    vx_temp[3] = v_x_-w_*len*cosf(raw_angle);
+    vy_temp[3] = v_y_+w_*len*sinf(raw_angle);
+    for(int i = 0;i<4;i++)
+    {
+      float vx_temp_temp = vx_temp[i];
+      float vy_temp_temp = vy_temp[i];//这里千万注意不能直接写，不然后数据被更新覆盖，挂了
+      vx_temp[i] = vx_temp_temp*cosf(angle_temp)+vy_temp_temp*sinf(angle_temp);
+      vy_temp[i] = -vx_temp_temp*sinf(angle_temp)+vy_temp_temp*cosf(angle_temp);
+    }
     for(int i = 0;i<4;i++)
     {
       v_[i]=sqrt(vx_temp[i]*vx_temp[i]+vy_temp[i]*vy_temp[i])*60.0f/(3.14*104.0f)*20.0f;

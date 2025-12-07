@@ -139,7 +139,7 @@ void MainTask(void) {
   }
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
-  dipan_private.set_w(0.0f);
+  dipan_private.set_w(2.0f);
   dipan_private.calc_jiesuan();
   float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
   dipan_private.get_v(v_temp);

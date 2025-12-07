@@ -43,6 +43,7 @@ float angle_duo_2 = 0;
 float angle_duo_3 = 0;
 float angle_duo_4 = 0;
 float angle_yaw = 0.0f;
+float imu_yaw = 0.0f;
 extern Joint_Motor_t yaw_private;
 extern dipan::Dipan dipan_private;
 /* External variables --------------------------------------------------------*/
@@ -151,6 +152,7 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         rc_lv_private = (float)temp / 1000.0f;
         temp = (int16_t)(((uint16_t)(can2_rx_data[2]) << 8) | ((uint16_t)can2_rx_data[3]));
         rc_lh_private = (float)temp / 1000.0f;
+        imu_yaw = (float)((int16_t)(can2_rx_data[4]<<8|can2_rx_data[5])/1000.0f);
       }
       if (rx_header2.StdId == 0x201) { // 帧头校验
         state2 = 1;
@@ -173,11 +175,11 @@ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan) {
         dm4310_fbdata(&yaw_private,can2_rx_data,8);
         angle_yaw = yaw_private.para.pos;
         if(f_y_axis == 0){
-          dipan_private.set_angle_raw_y_axis(angle_yaw);
+          dipan_private.set_angle_raw_y_axis(angle_yaw+imu_yaw);
           f_y_axis = 1;
         }
         else{
-          dipan_private.set_angle_now_y_axis(angle_yaw);
+          dipan_private.set_angle_now_y_axis(angle_yaw+imu_yaw);
         }
       }
     }

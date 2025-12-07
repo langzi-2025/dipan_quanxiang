@@ -54,6 +54,4 @@ float angle_now_y_axis = 0.0f;
 
 
 
-
-
 #endif // DIPAN_HPP
