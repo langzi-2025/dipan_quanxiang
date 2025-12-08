@@ -22,14 +22,11 @@ void dipan::Dipan::calc_jiesuan(void)
     float vx_temp[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     float vy_temp[4] = {0.0f, 0.0f, 0.0f, 0.0f};
     float angle_temp = -angle_now_y_axis;
-    vx_temp[0] = v_x_-w_*len*cosf(raw_angle);
-    vy_temp[0] = v_y_-w_*len*sinf(raw_angle);
-    vx_temp[1] = v_x_+w_*len*cosf(raw_angle);
-    vy_temp[1] = v_y_-w_*len*sinf(raw_angle);
-    vx_temp[2] = v_x_+w_*len*cosf(raw_angle);
-    vy_temp[2] = v_y_+w_*len*sinf(raw_angle);
-    vx_temp[3] = v_x_-w_*len*cosf(raw_angle);
-    vy_temp[3] = v_y_+w_*len*sinf(raw_angle);
+    for(int i = 0;i<4;i++)
+    {
+      vx_temp[i] = v_x_;
+      vy_temp[i] = v_y_;
+    }
     for(int i = 0;i<4;i++)
     {
       float vx_temp_temp = vx_temp[i];
@@ -37,6 +34,15 @@ void dipan::Dipan::calc_jiesuan(void)
       vx_temp[i] = vx_temp_temp*cosf(angle_temp)+vy_temp_temp*sinf(angle_temp);
       vy_temp[i] = -vx_temp_temp*sinf(angle_temp)+vy_temp_temp*cosf(angle_temp);
     }
+    vx_temp[0] = vx_temp[0]-w_*len*cosf(raw_angle);
+    vy_temp[0] = vy_temp[0]-w_*len*sinf(raw_angle);
+    vx_temp[1] = vx_temp[1]+w_*len*cosf(raw_angle);
+    vy_temp[1] = vy_temp[1]-w_*len*sinf(raw_angle);
+    vx_temp[2] = vx_temp[2]+w_*len*cosf(raw_angle);
+    vy_temp[2] = vy_temp[2]+w_*len*sinf(raw_angle);
+    vx_temp[3] = vx_temp[3]-w_*len*cosf(raw_angle);
+    vy_temp[3] = vy_temp[3]+w_*len*sinf(raw_angle);
+    
     for(int i = 0;i<4;i++)
     {
       v_[i]=sqrt(vx_temp[i]*vx_temp[i]+vy_temp[i]*vy_temp[i])*60.0f/(3.14*104.0f)*20.0f;

@@ -49,7 +49,7 @@
 pid::Pid pid_lun_id_1(25,0,0,16000,-16000);
 pid::Pid pid_lun_id_2(20,0,0,16000,-16000);
 pid::Pid pid_lun_id_3(20,0,0,16000,-16000);
-pid::Pid pid_lun_id_4(15,0,0,16000,-16000);
+pid::Pid pid_lun_id_4(10,0,0,16000,-16000);
 pid::Pid pid_duo_vel_id_1(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_2(105.0f,1.0f,11.0f,15000,-15000);
 pid::Pid pid_duo_vel_id_3(105.0f,1.0f,11.0f,15000,-15000);
@@ -161,7 +161,7 @@ void MainTask(void) {
   }
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
-  dipan_private.set_w(0.0f);
+  dipan_private.set_w(2.0f);
   dipan_private.calc_jiesuan();
   float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
   dipan_private.get_v(v_temp);
