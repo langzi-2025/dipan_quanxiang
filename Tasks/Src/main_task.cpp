@@ -64,6 +64,7 @@ pid::Pid pid_duo_angle_id_1(100.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_2(110.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_3(100.0f,0.0f,1.0f,120.0f,-120.0f);
 pid::Pid pid_duo_angle_id_4(100.0f,0.0f,1.0f,120.0f,-120.0f);
+pid::Pid pid_dipan_follow_pos(4.0f,0.0f,0.0f,10.0f,-10.0f);
 dipan::Dipan dipan_private;
 Joint_Motor_t yaw_private;
 yaw::Yaw yaw_angle_data;
@@ -82,6 +83,7 @@ extern float angle_duo_1;
 extern float angle_duo_2;
 extern float angle_duo_3;
 extern float angle_duo_4;
+extern float angle_yaw;
 extern float rc_lv_private;
 extern float rc_lh_private;
 extern float rc_rh_private;
@@ -159,9 +161,21 @@ void MainTask(void) {
   {
     rc_lv_private = 0.0f;
   }
+
+  if(-angle_yaw+1.52f >= 3.14f)
+  {
+    pid_dipan_follow_pos.set_error(-angle_yaw+1.52f-6.28f);
+  }
+  else
+  {
+    pid_dipan_follow_pos.set_error(-angle_yaw+1.52f);
+  }
+  float dipan_w = pid_dipan_follow_pos.calc();
+
+
   dipan_private.set_vy(rc_lv_private*1900.0f);
   dipan_private.set_vx(rc_lh_private*1900.0f);
-  dipan_private.set_w(2.0f);
+  dipan_private.set_w(dipan_w);
   dipan_private.calc_jiesuan();
   float v_temp[4] = {0.0f,0.0f,0.0f,0.0f};
   dipan_private.get_v(v_temp);
